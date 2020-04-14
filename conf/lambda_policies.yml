@@ -1,0 +1,29 @@
+Policies:
+  - PolicyName: "gsuite-password-change"
+    PolicyDocument:
+      Version: "2012-10-17"
+      Statement:
+        - Effect: "Allow"
+          Action:
+            - "logs:CreateLogGroup"
+            - "logs:CreateLogStream"
+            - "logs:PutLogEvents"
+          Resource:
+            - "arn:aws:logs:*:*:/aws/lambda/*"
+        - Effect: Allow
+          Action:
+            - "sts:AssumeRole"
+            - "ssm:GetParameter"
+            - "ssm:GetParameters"
+          Resource:
+            - "arn:aws:ssm:ap-northeast-1:*:parameter/*/ops/gsuite-password-change/*"
+        - Effect: Allow
+          Action:
+            - "kms:Decrypt"
+          Resource:
+            - "*"
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:*"
+          Resource:
+            - "arn:aws:dynamodb:ap-northeast-1:*:table/lambda-transaction"

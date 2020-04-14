@@ -6,9 +6,13 @@ type Config struct {
 	ServiceAccountJson string `envconfig:"SERVICE_ACCOUNT_JSON"`
 	GSuiteMail         string `envconfig:"GSUITE_MAIL"`
 	WebHookUrl         string `envconfig:"WEB_HOOK_URL"`
+	DynamoDBTable      string `envconfig:"DYNAMO_DB_TABLE"`
 }
 
-const ServiceAccountFile = "./gsuite_admin.json"
+const (
+	ServiceAccountFile = "/tmp/gsuite_admin.json"
+	FunctionName       = "gsuitePasswordChange"
+)
 
 var globalConfig Config
 

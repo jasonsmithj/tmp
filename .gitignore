@@ -1,1 +1,5 @@
 /gsuite_admin.json
+/bin/*
+!.keep
+/node_modules/
+/.serverless/

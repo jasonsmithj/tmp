@@ -1,0 +1,48 @@
+service: gsuite-password-change
+
+frameworkVersion: ">=1.28.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: ${self:custom.defaultStage}
+  region: "ap-northeast-1"
+  deploymentBucket: isana-${self:provider.stage}-lambda-deploy
+  timeout: 60
+  memorySize: 128
+  stackTags:
+    env: ${self:custom.defaultStage}
+  environment:
+    DYNAMO_DB_TABLE: "lambda-transaction"
+    SERVICE_ACCOUNT_JSON: ${ssm:/test/ops/gsuite-password-change/service-account-json~true}
+    GSUITE_MAIL: ${ssm:/test/ops/gsuite-password-change/gsuite-mail~true}
+    WEB_HOOK_URL: ${ssm:/test/ops/gsuite-password-change/web-hook-url~true}
+
+custom:
+  defaultStage: dev
+
+package:
+  exclude:
+    - ./**
+    - ./bin/.keep
+  include:
+    - ./bin/**
+
+functions:
+  gsuitePasswordChange:
+    name: gsuite-password-change
+    handler: bin/gsuite-password-change
+    role: GsuitePasswordChange
+    events:
+      - schedule:
+          rate: cron(*/10 * * * ? *)
+
+resources:
+  Resources:
+    GsuitePasswordChange:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: /
+        RoleName: gsuite-password-change
+        AssumeRolePolicyDocument: ${file(./conf/lambda_assume_role_policy_document.yml):AssumeRolePolicyDocument}
+        Policies: ${file(./conf/lambda_policies.yml):Policies}
