@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/jasonsmithj/tmp/internal/model"
 	"github.com/sirupsen/logrus"
 	admin "google.golang.org/api/admin/directory/v1"
 )
@@ -29,7 +30,7 @@ const (
 )
 
 func (g *gsuiteUser) Get(service *admin.Service) *admin.Users {
-	r, err := service.Users.List().Customer("my_customer").MaxResults(100).Query("email:guest*").Do()
+	r, err := service.Users.List().Customer("my_customer").MaxResults(100).Query("email:takayuki*").Do()
 	if err != nil {
 		logrus.WithFields(logrus.Fields{}).Error("Failed to retrieve user information")
 		logrus.WithFields(logrus.Fields{}).Fatal(err)
@@ -41,7 +42,10 @@ func (g *gsuiteUser) Get(service *admin.Service) *admin.Users {
 }
 
 func (g *gsuiteUser) Update(service *admin.Service, users *admin.Users) {
+	newSlackNotification := model.NewSlackNotification()
 	for _, u := range users.Users {
+		user := u.PrimaryEmail
+		password := GeneratePassword(16)
 		//_, err := service.Users.Update(u.PrimaryEmail, u).Fields().Do()
 		//if err != nil {
 		//	logrus.WithFields(logrus.Fields{}).Error("Failed to change password")
@@ -49,8 +53,9 @@ func (g *gsuiteUser) Update(service *admin.Service, users *admin.Users) {
 		//}
 		logrus.WithFields(logrus.Fields{
 			"user":     u.PrimaryEmail,
-			"password": GeneratePassword(16),
+			"password": password,
 		}).Info("Password changed successfully!")
+		newSlackNotification.Send(user, password)
 	}
 }
 

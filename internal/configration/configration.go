@@ -5,6 +5,7 @@ import "github.com/kelseyhightower/envconfig"
 type Config struct {
 	ServiceAccountJson string `envconfig:"SERVICE_ACCOUNT_JSON"`
 	GSuiteMail         string `envconfig:"GSUITE_MAIL"`
+	WebHookUrl         string `envconfig:"WEB_HOOK_URL"`
 }
 
 const ServiceAccountFile = "./gsuite_admin.json"

@@ -13,7 +13,6 @@ func main() {
 	// Sets the format of the log output.
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 
-
 	directoryService := service.NewDirectoryService()
 	// Auth a json file from the environment variables
 	directoryService.CreateKey()
