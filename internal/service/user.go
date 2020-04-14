@@ -29,7 +29,7 @@ const (
 )
 
 func (g *gsuiteUser) Get(service *admin.Service) *admin.Users {
-	r, err := service.Users.List().Customer("my_customer").MaxResults(100).Query("email:guest:*").Do()
+	r, err := service.Users.List().Customer("my_customer").MaxResults(100).Query("email:guest*").Do()
 	if err != nil {
 		logrus.WithFields(logrus.Fields{}).Error("Failed to retrieve user information")
 		logrus.WithFields(logrus.Fields{}).Fatal(err)

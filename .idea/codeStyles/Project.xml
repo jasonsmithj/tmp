@@ -3,10 +3,5 @@
     <GoCodeStyleSettings>
       <option name="GROUP_STDLIB_IMPORTS" value="true" />
     </GoCodeStyleSettings>
-    <codeStyleSettings language="ruby">
-      <indentOptions>
-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
-      </indentOptions>
-    </codeStyleSettings>
   </code_scheme>
 </component>
