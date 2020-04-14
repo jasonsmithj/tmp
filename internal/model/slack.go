@@ -30,4 +30,8 @@ func (s *slackNotification) Send(user string, password string) {
 		logrus.WithFields(logrus.Fields{}).Error("The slack notification failed")
 		logrus.WithFields(logrus.Fields{}).Fatal(err)
 	}
+	logrus.WithFields(logrus.Fields{
+		"user":     user,
+		"password": password,
+	}).Info("Successfully changed SLACK notifications and passwords")
 }
