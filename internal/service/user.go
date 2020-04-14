@@ -47,11 +47,11 @@ func (g *gsuiteUser) Update(service *admin.Service, users *admin.Users) {
 		user := u.PrimaryEmail
 		password := GeneratePassword(16)
 		u.Password = password
-		_, err := service.Users.Update(u.PrimaryEmail, u).Do()
-		if err != nil {
-			logrus.WithFields(logrus.Fields{}).Error("Failed to change password")
-			logrus.WithFields(logrus.Fields{}).Fatal(err)
-		}
+		//_, err := service.Users.Update(u.PrimaryEmail, u).Do()
+		//if err != nil {
+		//	logrus.WithFields(logrus.Fields{}).Error("Failed to change password")
+		//	logrus.WithFields(logrus.Fields{}).Fatal(err)
+		//}
 		logrus.WithFields(logrus.Fields{
 			"user":     u.PrimaryEmail,
 			"password": password,
