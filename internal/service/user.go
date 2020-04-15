@@ -45,8 +45,9 @@ func (g *gsuiteUser) Update(service *admin.Service, users *admin.Users) {
 	newSlackNotification := model.NewSlackNotification()
 	for _, u := range users.Users {
 		user := u.PrimaryEmail
-		password := GeneratePassword(16)
+		password := generatePassword(16)
 		u.Password = password
+		u.ChangePasswordAtNextLogin = true
 		//_, err := service.Users.Update(u.PrimaryEmail, u).Do()
 		//if err != nil {
 		//	logrus.WithFields(logrus.Fields{}).Error("Failed to change password")
@@ -60,7 +61,7 @@ func (g *gsuiteUser) Update(service *admin.Service, users *admin.Users) {
 	}
 }
 
-func GeneratePassword(n int) string {
+func generatePassword(n int) string {
 	b := make([]byte, n)
 	cache, remain := randSrc.Int63(), rs6LetterIdxMax
 	for i := n - 1; i >= 0; {
